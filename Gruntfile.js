@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         src: ['public/']
       },
       finishBuild: {
-        src: ['public/elm.js', 'styles']
+        src: ['public/elm.js', 'public/styles']
       }
     },
     //copy
@@ -104,19 +104,6 @@ module.exports = function(grunt) {
       dist: {
         files: {
           'public/index.html': ['public/index.html']
-        }
-      }
-    },
-    criticalcss: {
-      custom: {
-        options: {
-          url: "http://localhost:5000",
-          width: 1200,
-          height: 900,
-          outputfile: "public/styles/critical.css",
-          filename: "public/styles/index.css",
-          buffer: 800*1024,
-          ignoreConsole: false
         }
       }
     },
