@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/lamogura/git-involved.elm"
   },
+  "engines": {
+    "node": "~7.10.0"
+  },
   "bugs": {
     "url": "https://github.com/lamogura/git-involved.elm/issues"
   },
