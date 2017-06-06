@@ -7,6 +7,12 @@ const dimensions = {
   HIT_TYPE: 'dimension6',
 };
 
+const metrics = {
+  RESPONSE_END_TIME: 'metric1',
+  DOM_LOAD_TIME: 'metric2',
+  WINDOW_LOAD_TIME: 'metric3',
+};
+
 const TRACKING_VERSION = 'v1';
 
 const uuid = function b(a) {
@@ -38,6 +44,41 @@ const trackErrors = () => {
   });
 };
 
+const sendNavigationTimingMetrics = () => {
+  // Only track performance in supporting browsers.
+  if (!(window.performance && window.performance.timing)) return;
+
+  // If the window hasn't loaded, run this function after the `load` event.
+  if (document.readyState != 'complete') {
+    window.addEventListener('load', sendNavigationTimingMetrics);
+    return;
+  }
+
+  const nt = performance.timing;
+  const navStart = nt.navigationStart;
+
+  const responseEnd = Math.round(nt.responseEnd - navStart);
+  const domLoaded = Math.round(nt.domContentLoadedEventStart - navStart);
+  const windowLoaded = Math.round(nt.loadEventStart - navStart);
+
+  // In some edge cases browsers return very obviously incorrect NT values,
+  // e.g. 0, negative, or future times. This validates values before sending.
+  const allValuesAreValid = (...values) => {
+    return values.every((value) => value > 0 && value < 1e6);
+  };
+
+  if (allValuesAreValid(responseEnd, domLoaded, windowLoaded)) {
+    ga('send', 'event', {
+      eventCategory: 'Navigation Timing',
+      eventAction: 'track',
+      nonInteraction: true,
+      [metrics.RESPONSE_END_TIME]: responseEnd,
+      [metrics.DOM_LOAD_TIME]: domLoaded,
+      [metrics.WINDOW_LOAD_TIME]: windowLoaded,
+    });
+  }
+};
+
 // basic analytics loading
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};
 ga('create', 'UA-99079083-1', 'auto');
@@ -64,7 +105,7 @@ ga((tracker) => {
 });
 
 console.log('ga loaded');
-
+sendNavigationTimingMetrics()
 trackErrors()
 
 

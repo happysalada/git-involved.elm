@@ -1,6 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var dimensions = {
   TRACKING_VERSION: 'dimension1',
   CLIENT_ID: 'dimension2',
@@ -8,6 +10,12 @@ var dimensions = {
   HIT_ID: 'dimension4',
   HIT_TIME: 'dimension5',
   HIT_TYPE: 'dimension6'
+};
+
+var metrics = {
+  RESPONSE_END_TIME: 'metric1',
+  DOM_LOAD_TIME: 'metric2',
+  WINDOW_LOAD_TIME: 'metric3'
 };
 
 var TRACKING_VERSION = 'v1';
@@ -64,6 +72,46 @@ var trackErrors = function trackErrors() {
   });
 };
 
+var sendNavigationTimingMetrics = function sendNavigationTimingMetrics() {
+  // Only track performance in supporting browsers.
+  if (!(window.performance && window.performance.timing)) return;
+
+  // If the window hasn't loaded, run this function after the `load` event.
+  if (document.readyState != 'complete') {
+    window.addEventListener('load', sendNavigationTimingMetrics);
+    return;
+  }
+
+  var nt = performance.timing;
+  var navStart = nt.navigationStart;
+
+  var responseEnd = Math.round(nt.responseEnd - navStart);
+  var domLoaded = Math.round(nt.domContentLoadedEventStart - navStart);
+  var windowLoaded = Math.round(nt.loadEventStart - navStart);
+
+  // In some edge cases browsers return very obviously incorrect NT values,
+  // e.g. 0, negative, or future times. This validates values before sending.
+  var allValuesAreValid = function allValuesAreValid() {
+    for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+      values[_key] = arguments[_key];
+    }
+
+    return values.every(function (value) {
+      return value > 0 && value < 1e6;
+    });
+  };
+
+  if (allValuesAreValid(responseEnd, domLoaded, windowLoaded)) {
+    var _ga;
+
+    ga('send', 'event', (_ga = {
+      eventCategory: 'Navigation Timing',
+      eventAction: 'track',
+      nonInteraction: true
+    }, _defineProperty(_ga, metrics.RESPONSE_END_TIME, responseEnd), _defineProperty(_ga, metrics.DOM_LOAD_TIME, domLoaded), _defineProperty(_ga, metrics.WINDOW_LOAD_TIME, windowLoaded), _ga));
+  }
+};
+
 // basic analytics loading
 window.ga = window.ga || function () {
   (ga.q = ga.q || []).push(arguments);
@@ -92,7 +140,7 @@ ga(function (tracker) {
 });
 
 console.log('ga loaded');
-
+sendNavigationTimingMetrics();
 trackErrors();
 
 },{}]},{},[1]);
