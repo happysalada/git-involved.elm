@@ -122,7 +122,6 @@ ga('create', 'UA-99079083-1', 'auto');
 ga('set', 'transport', 'beacon');
 ga('set', dimensions.TRACKING_VERSION, TRACKING_VERSION);
 ga('set', dimensions.WINDOW_ID, uuid());
-ga('send', 'pageview');
 
 // get the client Id from ga
 ga(function (tracker) {
@@ -144,5 +143,7 @@ ga(function (tracker) {
 
 sendNavigationTimingMetrics();
 trackErrors();
+
+ga('send', 'pageview');
 
 },{}]},{},[1]);
