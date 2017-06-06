@@ -10,15 +10,11 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#3F51B5">
   <link rel="icon" sizes="192x192" href="favicon.ico">
+  <!-- script to track errors on the page-->
+  <script>addEventListener('error', window.__e=function f(e){f.q=f.q||[];f.q.push(e)});</script>
   <!-- build:css inline -->
   <link rel="stylesheet" href="styles/index.css">
   <!-- /build -->
-  <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};
-    ga('create', 'UA-99079083-1', 'auto');
-    ga('set', 'transport', 'beacon');
-    ga('send', 'pageview');
-  </script>
   <!--<link rel="preload" href="https://code.getmdl.io/1.3.0/material.indigo-purple.min.css" as="style" onload="this.rel='stylesheet'"/>
   <link rel="preload" href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" as="style"onload="this.rel='stylesheet'"/>
   <noscript>
@@ -29,6 +25,9 @@
   <script src="elm.js"></script>
   <!-- /build -->
   <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- build:js inline -->
+  <script async src="js/analyticsBase.js"></script>
+  <!-- /build -->
 </head>
 
 <body>

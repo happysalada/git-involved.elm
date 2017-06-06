@@ -39,7 +39,7 @@ module.exports = function(grunt) {
       },
       js: {
         // the files to concatenate
-        src: ['frontend/**/*.js'],
+        src: ['frontend/elm.js'],
         // the location of the resulting JS file
         dest: 'public/elm.js'
       }
@@ -89,6 +89,26 @@ module.exports = function(grunt) {
           src: "**/*.html",
           dest: "public/"
         }]
+      }
+    },
+    browserify: {
+      build: {
+        files: {'public/js/analyticsBase.js': 'frontend/js/analyticsBase.js'},
+        options: {
+          extensions: ['.js'],
+          transform: [
+            ['babelify', {
+              presets: ['es2015', 'stage-2'],
+              plugins: [
+                ["add-module-exports"],
+                ["transform-async-to-generator"],
+                ["transform-es2015-modules-commonjs"],
+                ['transform-inline-environment-variables'],
+                ['transform-object-rest-spread', { useBuiltIns: true }]
+              ]
+            }]
+          ]
+        }
       }
     },
     uglify: {
@@ -142,6 +162,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-uncss-inline');
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.registerTask('default', [
     'clean:initBuild',
@@ -149,6 +170,7 @@ module.exports = function(grunt) {
     'imagemin',
     'concat',
     'cssmin:pre',
+    'browserify',
     'uglify',
     'processhtml',
     'uncss_inline',
