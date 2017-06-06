@@ -88,7 +88,9 @@ var sendNavigationTimingMetrics = function sendNavigationTimingMetrics() {
   var responseEnd = Math.round(nt.responseEnd - navStart);
   var domLoaded = Math.round(nt.domContentLoadedEventStart - navStart);
   var windowLoaded = Math.round(nt.loadEventStart - navStart);
-
+  console.log('responseEnd', responseEnd);
+  console.log('domload', domLoaded);
+  console.log('windwowLloaded', windowLoaded);
   // In some edge cases browsers return very obviously incorrect NT values,
   // e.g. 0, negative, or future times. This validates values before sending.
   var allValuesAreValid = function allValuesAreValid() {
@@ -126,6 +128,7 @@ ga('send', 'pageview');
 ga(function (tracker) {
   var clientId = tracker.get('clientId');
   tracker.set(dimensions.CLIENT_ID, clientId);
+  console.log('client id set');
 });
 
 ga(function (tracker) {
@@ -134,12 +137,11 @@ ga(function (tracker) {
     model.set(dimensions.HIT_ID, uuid(), true);
     model.set(dimensions.HIT_TIME, new Date().toISOString().replace(/[TZ]/g, ' '), true);
     model.set(dimensions.HIT_TYPE, model.get('hitType'), true);
-
+    console.log('hit set');
     originalBuildHitTask(model);
   });
 });
 
-console.log('ga loaded');
 sendNavigationTimingMetrics();
 trackErrors();
 
