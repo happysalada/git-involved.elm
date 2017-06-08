@@ -137,9 +137,19 @@ ga(function (tracker) {
   });
 });
 
+ga('require', 'maxScrollTracker', {
+  maxScrollMetricIndex: 4
+});
+
+ga('require', 'urlChangeTracker');
+
 sendNavigationTimingMetrics();
 trackErrors();
 
-ga('send', 'pageview');
+ga('require', 'pageVisibilityTracker', {
+  sendInitialPageview: true
+});
+// no longer needed because of pageVisibilityTracker
+// ga('send', 'pageview');
 
 },{}]},{},[1]);
