@@ -1,4 +1,4 @@
-import 'autotrack.custom.js';
+require('./autotrack.custom.js');
 
 const dimensions = {
   TRACKING_VERSION: 'dimension1',

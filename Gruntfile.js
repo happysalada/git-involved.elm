@@ -115,8 +115,7 @@ module.exports = function(grunt) {
       options: {},
       dist: {
         files: {
-          'public/elm.js': ['<%= concat.js.dest %>'],
-          'public/js/autotrack.custom.js': 'frontend/js/autotrack.custom.js'
+          'public/elm.js': ['<%= concat.js.dest %>']
         }
       }
     },
