@@ -149,7 +149,8 @@ sendNavigationTimingMetrics();
 trackErrors();
 
 ga('require', 'pageVisibilityTracker', {
-  sendInitialPageview: true
+  sendInitialPageview: true,
+  visibleMetricIndex: 5
 });
 // no longer needed because of pageVisibilityTracker
 // ga('send', 'pageview');
