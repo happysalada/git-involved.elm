@@ -10,7 +10,8 @@
     "url": "https://github.com/lamogura/git-involved.elm"
   },
   "engines": {
-    "node": "~8.0.0"
+    "node": "latest",
+    "yarn": "latest"
   },
   "bugs": {
     "url": "https://github.com/lamogura/git-involved.elm/issues"
