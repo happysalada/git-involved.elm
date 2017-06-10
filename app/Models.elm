@@ -10,7 +10,7 @@ import Material
 
 initialModel : Route -> Model
 initialModel route =
-    { issuesSearchResult = RemoteData.Loading
+    { issues = RemoteData.Loading
     , route = route
     , autocompleteState = Autocomplete.empty
     , selectedLanguage = Just "Javascript"
@@ -22,7 +22,7 @@ initialModel route =
 
 
 type alias Model =
-    { issuesSearchResult : WebData IssueSearchResult
+    { issues : WebData (List Issue)
     , route : Route
     , autocompleteState : Autocomplete.State
     , selectedLanguage : Maybe String
@@ -30,12 +30,6 @@ type alias Model =
     , languageQuery : String
     , orderIssuesBy : OrderIssuesBy
     , mdl : Material.Model
-    }
-
-
-type alias IssueSearchResult =
-    { totalCount : Int
-    , issues : List Issue
     }
 
 

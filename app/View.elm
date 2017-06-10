@@ -72,15 +72,15 @@ mainPage model =
 
 maybeIssueSearchResult : Model -> List (Html Message)
 maybeIssueSearchResult model =
-    case model.issuesSearchResult of
+    case model.issues of
         RemoteData.NotAsked ->
             [ text "" ]
 
         RemoteData.Loading ->
             [ text "Loading..." ]
 
-        RemoteData.Success issueSearchResult ->
-            List.map issueDiv issueSearchResult.issues
+        RemoteData.Success issues ->
+            List.map issueDiv issues
                 |> List.map (\f -> f model.mdl)
 
         RemoteData.Failure error ->

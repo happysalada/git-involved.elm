@@ -1,7 +1,7 @@
 module Commands exposing (..)
 
 import Http
-import Models exposing (Issue, IssueSearchResult, Label)
+import Models exposing (Issue, Label)
 import Json.Decode exposing (Decoder, int, string, list)
 import Json.Decode.Pipeline exposing (decode, required, optional)
 import Messages exposing (Message)
@@ -32,10 +32,9 @@ fetchIssues language =
             |> Cmd.map Messages.OnFetchIssues
 
 
-issueSearchResultDecoder : Decoder IssueSearchResult
+issueSearchResultDecoder : Decoder (List Issue)
 issueSearchResultDecoder =
-    decode IssueSearchResult
-        |> required "total_count" int
+    decode identity
         |> required "items" (list issueDecoder)
 
 

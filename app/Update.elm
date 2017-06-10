@@ -28,7 +28,7 @@ update msg model =
             ( model, Navigation.newUrl "/" )
 
         OnFetchIssues response ->
-            { model | issuesSearchResult = response } ! []
+            { model | issues = response } ! []
 
         Mdl msg_ ->
             Material.update Mdl msg_ model
