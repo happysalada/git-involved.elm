@@ -1,3 +1,5 @@
+import 'autotrack.custom.js';
+
 const dimensions = {
   TRACKING_VERSION: 'dimension1',
   CLIENT_ID: 'dimension2',
