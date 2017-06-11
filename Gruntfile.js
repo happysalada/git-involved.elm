@@ -4,9 +4,6 @@ module.exports = function(grunt) {
     clean: {
       initBuild: {
         src: ['public/']
-      },
-      finishBuild: {
-        src: ['public/elm.js', 'public/styles']
       }
     },
     //copy
@@ -36,7 +33,7 @@ module.exports = function(grunt) {
       pre: {
         options: {keepSpecialComments: 0},
         files: {
-          'public/styles/index.css': 'frontend/styles/index.css'
+          'public/styles/index.css': 'frontend/styles/cssRemoveAndCombine.css'
         }
       },
     },
@@ -160,9 +157,6 @@ module.exports = function(grunt) {
     'cssmin:pre',
     'browserify',
     'uglify',
-    'processhtml',
-    'uncss_inline',
-    'htmlmin',
-    'clean:finishBuild'
+    'htmlmin'
   ]);
 };
