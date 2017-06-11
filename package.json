@@ -17,12 +17,10 @@
     "url": "https://github.com/lamogura/git-involved.elm/issues"
   },
   "scripts": {
-    "install": "npm install --dev",
     "test": "./node_modules/.bin/elm-test tests/RunTestsInTerminal.elm",
     "start": "node server.js",
     "server": "nodemon server.js",
     "build": "elm make app/App.elm --output=frontend/elm.js && grunt",
-    "postinstall": "yarn build",
     "dev": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend"
   },
   "dependencies": {
