@@ -6,15 +6,6 @@ module.exports = function(grunt) {
         src: ['public/']
       }
     },
-    //copy
-    copy: {
-      favicoManifest: {
-        files: [
-          {nonull: true, src: 'frontend/favicon.ico', dest: 'public/favicon.ico'},
-          {nonull: true, src: 'frontend/manifest.json', dest: 'public/manifest.json'}
-        ]
-      },
-    },
     imagemin: {
       img: {
         options: {
@@ -68,12 +59,10 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask('default', [
-    'copy',
     'imagemin',
     'cssmin:pre',
     'browserify',
