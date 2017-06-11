@@ -11,8 +11,7 @@ module.exports = function(grunt) {
       favicoManifest: {
         files: [
           {nonull: true, src: 'frontend/favicon.ico', dest: 'public/favicon.ico'},
-          {nonull: true, src: 'frontend/manifest.json', dest: 'public/manifest.json'},
-          {nonull: true, src: 'frontend/index.html', dest: 'public/index.html'}
+          {nonull: true, src: 'frontend/manifest.json', dest: 'public/manifest.json'}
         ]
       },
     },
@@ -36,45 +35,6 @@ module.exports = function(grunt) {
           'public/styles/index.css': 'frontend/styles/cssRemoveAndCombine.css'
         }
       },
-    },
-    uncss_inline: {
-      index: {
-        options: {
-          timeout: 5000,
-          ignore: [
-            /mdl-card/,
-            /issue-card/,
-            /mdl-shadow/,
-            /rounded/,
-            /flex/,
-            /my3/,
-            /mdl-color--white/,
-            /^content$/,
-            /^fit$/,
-            /py0/,
-            /px3/,
-            /mt2/,
-            /mdl-card__supporting-text/,
-            /body/,
-            /overflow-hidden/,
-            /items-center/,
-            /mdl-card__actions/,
-            /^m1$/,
-            /^center$/,
-            /mdl-chip/,
-            /^col$/,
-            /col-2/,
-            /^xs-hide$/,
-            /col-10/
-          ]
-        },
-        files: [{
-          expand: true,
-          cwd: "public/",
-          src: "**/*.html",
-          dest: "public/"
-        }]
-      }
     },
     browserify: {
       build: {
@@ -104,59 +64,21 @@ module.exports = function(grunt) {
           'public/js/analyticsBase.js': ['public/js/analyticsBase.js']
         }
       }
-    },
-    processhtml: {
-      options: {},
-      dist: {
-        files: {
-          'public/index.html': ['public/index.html']
-        }
-      }
-    },
-    htmlmin: {
-      index: {
-        options: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          conservativeCollapse: true,
-          decodeEntities: false,
-          minifyCSS: true,
-          minifyJS: true,
-          minifyURLs: false,
-          processConditionalComments: true,
-          removeAttributeQuotes: true,
-          removeComments: true,
-          removeOptionalAttributes: true,
-          removeOptionalTags: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          removeTagWhitespace: false,
-          sortAttributes: true,
-          sortClassName: true
-        },
-        files: {'public/index.html': 'public/index.html'}
-      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-processhtml');
-  grunt.loadNpmTasks('grunt-uncss-inline');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.registerTask('default', [
     'clean:initBuild',
     'copy',
     'imagemin',
     'cssmin:pre',
     'browserify',
-    'uglify',
-    'htmlmin'
+    'uglify'
   ]);
 };
