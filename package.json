@@ -21,6 +21,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "build": "elm make app/App.elm --output=frontend/elm.js && grunt",
+    "postinstall": "yarn build",
     "dev": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend"
   },
   "dependencies": {
@@ -46,9 +47,9 @@
     "serve-favicon": "^2.4.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-plugin-transform-inline-environment-variables": "^0.1.1",
     "babelify": "^7.3.0",
-    "babel-cli": "^6.24.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.1.0",
@@ -62,6 +63,7 @@
     "grunt-uncss-inline": "^1.0.5",
     "html-minifier": "^3.5.2",
     "nodemon": "^1.11.0",
+    "purify-css": "^1.2.5",
     "uglify-js": "^3.0.15"
   }
 }

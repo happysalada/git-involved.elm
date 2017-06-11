@@ -32,18 +32,6 @@ module.exports = function(grunt) {
         }]
       }
     },
-    concat: {
-      options: {
-      // define a string to put between each file in the concatenated output
-        separator: ';'
-      },
-      js: {
-        // the files to concatenate
-        src: ['frontend/elm.js'],
-        // the location of the resulting JS file
-        dest: 'public/elm.js'
-      }
-    },
     cssmin: {
       pre: {
         options: {keepSpecialComments: 0},
@@ -115,7 +103,8 @@ module.exports = function(grunt) {
       options: {},
       dist: {
         files: {
-          'public/elm.js': ['<%= concat.js.dest %>']
+          'public/elm.js': ['frontend/elm.js'],
+          'public/js/analyticsBase.js': ['public/js/analyticsBase.js']
         }
       }
     },
@@ -168,7 +157,6 @@ module.exports = function(grunt) {
     'clean:initBuild',
     'copy',
     'imagemin',
-    'concat',
     'cssmin:pre',
     'browserify',
     'uglify',
