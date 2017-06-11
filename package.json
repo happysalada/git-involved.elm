@@ -17,9 +17,11 @@
     "url": "https://github.com/lamogura/git-involved.elm/issues"
   },
   "scripts": {
+    "clean": "rimraf public/*",
     "test": "./node_modules/.bin/elm-test tests/RunTestsInTerminal.elm",
     "start": "node server.js",
     "server": "nodemon server.js",
+    "prebuild": "yarn run clean",
     "build": "elm make app/App.elm --output=frontend/elm.js && grunt",
     "postbuild": "html-minifier --config-file htmlMinifier.conf --output public/index.html frontend/index.html",
     "dev": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend"
@@ -53,13 +55,13 @@
     "elm": "^0.18.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
-    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^2.2.0",
     "grunt-contrib-imagemin": "^1.0.1",
     "grunt-contrib-uglify": "^3.0.1",
     "html-minifier": "^3.5.2",
     "nodemon": "^1.11.0",
+    "rimraf": "^2.6.1",
     "uglify-js": "^3.0.15"
   }
 }
