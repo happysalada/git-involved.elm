@@ -17,6 +17,7 @@
     "url": "https://github.com/lamogura/git-involved.elm/issues"
   },
   "scripts": {
+    "install": "npm install --dev",
     "test": "./node_modules/.bin/elm-test tests/RunTestsInTerminal.elm",
     "start": "node server.js",
     "server": "nodemon server.js",
