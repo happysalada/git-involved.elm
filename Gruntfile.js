@@ -58,13 +58,10 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask('default', [
     'imagemin',
-    'cssmin:pre',
     'browserify'
   ]);
 };
