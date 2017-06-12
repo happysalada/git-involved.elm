@@ -31,7 +31,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use(compression()) // Enable gzip
+// app.use(compression()) // Enable gzip
 
 app.use("/", express.static(path.resolve(__dirname, '../public')))
 
