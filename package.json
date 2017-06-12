@@ -52,7 +52,8 @@
   "scripts": {
     "test": "./node_modules/.bin/elm-test tests/RunTestsInTerminal.elm",
     "start": "node server.js",
-    "server": "nodemon server.js",
+    "dev:server": "nodemon server.js",
+    "dev:client": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend",
     "prebuild": "rimraf public/*",
     "build": "yarn build:elm && yarn build:assets && yarn build:images && yarn build:css && yarn build:js && yarn build:html",
     "build:elm": "elm make app/App.elm --output=frontend/js/elm.js",
@@ -61,8 +62,7 @@
     "build:css": "cleancss -O2 -o public/styles/index.css frontend/styles/index.css",
     "build:js": "uglifyjs frontend/js/elm.js -c -o public/js/elm.js && browserify -d frontend/js/analyticsBase.js -p [minifyify --map public/js/analytics.js.map --output public/js/analytics.js.map --uglify [ --compress ] ] > public/js/analyticsBase.js",
     "build:mark": "hashmark -c public -r -l 6 -m public/assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -c public -r -l 6 -m public/assets.json '**/*.{css,js}' '{dir}/{name}-{hash}{ext}'",
-    "build:html": "html-minifier --config-file htmlMinifier.conf --output public/index.html frontend/index.html",
-    "dev": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend"
+    "build:html": "html-minifier --config-file htmlMinifier.conf --output public/index.html frontend/index.html"
   },
   "dependencies": {
     "apicache": "^0.8.6",
