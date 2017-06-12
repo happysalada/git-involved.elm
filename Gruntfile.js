@@ -51,7 +51,7 @@ module.exports = function(grunt) {
       options: {},
       dist: {
         files: {
-          'public/elm.js': ['frontend/elm.js'],
+          'public/js/elm.js': ['frontend/js/elm.js'],
           'public/js/analyticsBase.js': ['public/js/analyticsBase.js']
         }
       }

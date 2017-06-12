@@ -17,14 +17,14 @@
     "url": "https://github.com/lamogura/git-involved.elm/issues"
   },
   "scripts": {
-    "clean": "rimraf public/*",
     "test": "./node_modules/.bin/elm-test tests/RunTestsInTerminal.elm",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "prebuild": "yarn run clean",
-    "build": "elm make app/App.elm --output=frontend/elm.js && yarn run build:assets && grunt",
-    "build:assets": "cp -r frontend/img public/img && cp frontend/favicon.ico public/favicon.ico && cp frontend/manifest.json public/manifest.json",
-    "postbuild": "html-minifier --config-file htmlMinifier.conf --output public/index.html frontend/index.html",
+    "prebuild": "rimraf public/*",
+    "build": "elm make app/App.elm --output=frontend/js/elm.js && yarn run build:assets && grunt && yarn run build:mark",
+    "build:assets": "cp -r frontend/assets public/assets",
+    "build:mark": "hashmark -c public -r -l 6 -m public/assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -c public -r -l 6 -m public/assets.json '**/*.{css,js}' '{dir}/{name}-{hash}{ext}'",
+    "postbuild": "postbuild -i frontend/index.html -o public/index.html -c public/styles -j public/js -r production",
     "dev": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend"
   },
   "dependencies": {
@@ -54,17 +54,16 @@
     "babel-plugin-transform-inline-environment-variables": "^0.1.1",
     "babelify": "^7.3.0",
     "elm": "^0.18.0",
-    "hashmark": "3.1.0",
-    "injectassets": "1.0.2",
-    "replaceinfiles": "1.1.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^2.2.0",
     "grunt-contrib-imagemin": "^1.0.1",
     "grunt-contrib-uglify": "^3.0.1",
+    "hashmark": "3.1.0",
     "html-minifier": "^3.5.2",
     "nodemon": "^1.11.0",
+    "postbuild": "^2.0.0",
     "rimraf": "^2.6.1",
     "uglify-js": "^3.0.15"
   }
