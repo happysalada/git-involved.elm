@@ -169,3 +169,11 @@ iframe { display: block; width: 100%; border: none; }
 .items-center { -webkit-box-align: center; align-items: center; }
 .justify-center { -webkit-box-pack: center; justify-content: center; }
 .rounded { border-radius: 3px; }
+@media (min-width: 40rem) {
+  .issue-card .content .body {
+    max-height: 8.5rem;
+  }
+  .issue-card .content .body:hover {
+    max-height: none;
+  }
+}
