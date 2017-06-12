@@ -65,7 +65,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'imagemin',
     'cssmin:pre',
-    'browserify',
-    'uglify'
+    'browserify'
   ]);
 };

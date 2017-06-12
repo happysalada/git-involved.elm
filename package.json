@@ -21,10 +21,11 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "prebuild": "rimraf public/*",
-    "build": "elm make app/App.elm --output=frontend/js/elm.js && yarn run build:assets && grunt && yarn run build:mark",
+    "build": "elm make app/App.elm --output=frontend/js/elm.js && yarn run build:assets && grunt && yarn build:js && yarn run build:mark && yarn run build:html",
     "build:assets": "cp -r frontend/assets public/assets",
+    "build:js": "uglifyjs frontend/js/elm.js -c -m --mangle-props reserved=[Elm] -o public/js/elm.js && uglifyjs public/js/analyticsBase.js -c -o public/js/analyticsBase.js",
     "build:mark": "hashmark -c public -r -l 6 -m public/assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -c public -r -l 6 -m public/assets.json '**/*.{css,js}' '{dir}/{name}-{hash}{ext}'",
-    "postbuild": "postbuild -i frontend/index.html -o public/index.html -c public/styles -j public/js -r production",
+    "build:html": "html-minifier --config-file htmlMinifier.conf --output public/index.html frontend/index.html",
     "dev": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend"
   },
   "dependencies": {
