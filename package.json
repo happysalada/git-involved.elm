@@ -55,14 +55,15 @@
     "dev:server": "nodemon server.js",
     "dev:client": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend",
     "prebuild": "rimraf public/*",
-    "build": "yarn build:elm && yarn build:assets && yarn build:images && yarn build:css && yarn build:js && yarn build:html",
+    "build": "yarn build:elm && yarn build:assets && yarn build:images && yarn build:css && yarn build:js && yarn build:html && yarn build:mark",
     "build:elm": "elm make app/App.elm --output=frontend/js/elm.js",
     "build:assets": "mkdir public/styles && mkdir public/js && mkdir public/assets && cp frontend/assets/favicon.ico public/assets/favicon.ico && cp frontend/assets/manifest.json public/assets/manifest.json",
     "build:images": "imagemin frontend/assets/*.png --out-dir=public/assets",
     "build:css": "cleancss -O2 -o public/styles/index.css frontend/styles/index.css",
     "build:js": "uglifyjs frontend/js/elm.js -c -o public/js/elm.js && browserify -d frontend/js/analyticsBase.js -p [minifyify --map public/js/analytics.js.map --output public/js/analytics.js.map --uglify [ --compress ] ] > public/js/analyticsBase.js",
-    "build:mark": "hashmark -c public -r -l 6 -m public/assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -c public -r -l 6 -m public/assets.json '**/*.{css,js}' '{dir}/{name}-{hash}{ext}'",
-    "build:html": "html-minifier --config-file htmlMinifier.conf --output public/index.html frontend/index.html"
+    "build:html": "html-minifier --config-file htmlMinifier.conf --output public/temp.html frontend/index.html",
+    "build:mark": "hashmark -c public -r -l 6 -m public/assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -c public -r -l 6 -m public/assets.json '**/*.{css,js}' '{dir}/{name}-{hash}{ext}' && awk 'BEGIN { FS = \"\\\"\" } ;FNR==NR { array[$2]=$4; next } { for (i in array) gsub(i,array[i])}1' public/assets.json public/temp.html > public/index.html",
+    "postbuild": "rimraf public/temp.html"
   },
   "dependencies": {
     "apicache": "^0.8.6",
