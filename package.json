@@ -83,6 +83,7 @@
     "dotenv-safe": "^4.0.4",
     "express": "^4.15.3",
     "namespaced-console-logger": "^1.0.1",
+    "prerender-node": "^2.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "serve-favicon": "^2.4.3"
@@ -94,7 +95,6 @@
     "browserify": "^14.4.0",
     "clean-css-cli": "^4.1.4",
     "elm": "^0.18.0",
-    "grunt-contrib-imagemin": "^1.0.1",
     "hashmark": "3.1.0",
     "html-minifier": "^3.5.2",
     "imagemin-cli": "^3.0.0",

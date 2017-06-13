@@ -30,7 +30,7 @@ app.use(cache('1 week'))
 
 // app.use(bodyParser.urlencoded({ extended: true }))
 // app.use(bodyParser.json())
-
+app.use(require('prerender-node').set('prerenderToken', '8nDnghm1e4A1BNId6JdQ'));
 app.use(compression()) // Enable gzip
 app.use("/", express.static(path.resolve(__dirname, '../public')))
 
