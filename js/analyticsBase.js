@@ -8,4 +8,4 @@
 },{}]},{},[1])
 
 
-//# sourceMappingURL=public/js/analytics.js.map
+//# sourceMappingURL=js/analytics.js.map
