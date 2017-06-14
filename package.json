@@ -62,7 +62,7 @@
     "build:css": "cleancss -O2 -o styles/index.css frontend/styles/cssRemoveAndCombine.css",
     "build:js": "uglifyjs frontend/js/elm.js -c -o js/elm.js && browserify -d frontend/js/analyticsBase.js -p [minifyify --map js/analytics.js.map --output js/analytics.js.map --uglify [ --compress ] ] > js/analyticsBase.js",
     "build:html": "html-minifier --config-file htmlMinifier.conf --output temp.html frontend/index.html",
-    "build:mark": "hashmark -r -l 6 -m assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -c public -r -l 6 -m public/assets.json '{styles,js}/*.{css,js}' '{dir}/{name}-{hash}{ext}' && awk 'BEGIN { FS = \"\\\"\" } ;FNR==NR { array[$2]=$4; next } { for (i in array) gsub(i,array[i])}1' assets.json temp.html > index.html",
+    "build:mark": "hashmark -r -l 6 -m assets.json 'assets/**/*.*' '{dir}/{name}-{hash}{ext}' && hashmark -s -r -l 6 -m assets.json '{styles,js}/*.{css,js}' '{dir}/{name}-{hash}{ext}' && awk 'BEGIN { FS = \"\\\"\" } ;FNR==NR { array[$2]=$4; next } { for (i in array) gsub(i,array[i])}1' assets.json temp.html > index.html",
     "postbuild": "rimraf temp.html && rimraf assets.json"
   },
   "dependencies": {
