@@ -4,7 +4,7 @@ import favicon from 'serve-favicon'
 import routes from './routes'
 import config from './config'
 import loggers from './loggers'
-var compress = require('compression');
+const compression = require('compression');
 
 const LEGIT_APP_SECRET = config.get('LEGIT_APP_SECRET')
 
@@ -15,7 +15,7 @@ const app = express()
 app.use(require('prerender-node').set('prerenderToken', '8nDnghm1e4A1BNId6JdQ'));
 app.use(compression()) // Enable gzip
 
-oneYear = 1 * 365 * 24 * 60 * 60 * 1000
+const oneYear = 1 * 365 * 24 * 60 * 60 * 1000
 app.use("/", express.static(path.resolve(__dirname, '../public'), { maxAge: oneYear }))
 
 const server = app.listen(process.env.PORT || 5000, () => {
