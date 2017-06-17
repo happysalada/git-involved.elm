@@ -1,0 +1,10 @@
+FROM nginx:latest
+
+WORKDIR /public
+
+ADD public .
+
+RUN rm -v /etc/nginx/nginx.conf
+ADD nginx.conf /etc/nginx/
+
+CMD nginx
