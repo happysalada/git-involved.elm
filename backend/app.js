@@ -5,6 +5,8 @@ import routes from './routes'
 import config from './config'
 import loggers from './loggers'
 const compression = require('compression');
+const helmet = require('helmet');
+const expressEnforcesSSL = require('express-enforces-ssl');
 
 const LEGIT_APP_SECRET = config.get('LEGIT_APP_SECRET')
 
@@ -14,6 +16,10 @@ const app = express()
 
 app.use(require('prerender-node').set('prerenderToken', '8nDnghm1e4A1BNId6JdQ'));
 app.use(compression()) // Enable gzip
+app.use(helmet()) // basic security for node
+
+app.enable('trust proxy');
+app.use(expressEnforcesSSL()); // enforce ssl
 
 const oneYear = 1 * 365 * 24 * 60 * 60 * 1000
 app.use("/", express.static(path.resolve(__dirname, '../public'), { maxAge: oneYear }))
