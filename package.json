@@ -50,7 +50,7 @@
     ]
   },
   "scripts": {
-    "test": "./node_modules/.bin/elm-test tests/RunTestsInTerminal.elm",
+    "test": "./node_modules/.bin/elm-test",
     "start": "node server.js",
     "dev:server": "nodemon server.js",
     "dev:client": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend",
