@@ -5,18 +5,23 @@ jobs:
       - image: circleci/node:latest
     working_directory: ~/git-involved
     steps:
-      - type: checkout
-      - type: shell
-        name: build
-        command: docker-compose build
-
-  start:
-    steps:
-      - name: start
-        command: docker-compose up -d
-
-  test:
-    steps:
-      - name: elm tests
-        command: yarn test
-
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-node-modules-{{ checksum "yarn.lock" }}
+      - run:
+          name: install dependencies
+          command: npm install
+      - save_cache:
+          key: v1-node-modules-{{ checksum "yarn.lock" }}
+          paths:
+            - /git-involved/node_modules
+      - run:
+          name: elm tests
+          command: npm run test
+      - run:
+          name: build
+          command: docker-compose build
+      - run:
+          name: start
+          command: docker-compose up -d
