@@ -5,7 +5,18 @@ jobs:
       - image: circleci/node:latest
     working_directory: ~/git-involved
     steps:
-      - checkout
-      - run:
-          name: da first step
-          command: echo "hello world"
+      - type: checkout
+      - type: shell
+        name: build
+        command: docker-compose build
+
+  start:
+    steps:
+      - name: start
+        command: docker-compose up -d
+
+  test:
+    steps:
+      - name: elm tests
+        command: yarn test
+

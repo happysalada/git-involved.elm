@@ -1,18 +1,30 @@
 version: "3"
 services:
-  web:
-    image: happysalada/gitback:latest
-    deploy:
-      replicas: 5
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 100M
-      restart_policy:
-        condition: on-failure
+  nginx:
+    build: .
+      context: .
+      dockerfile: Dockerfile.nginx
     ports:
-      - "80:80"
-    networks:
-      - webnet
-networks:
-  webnet:
+     - 80:80
+    # allow attaching directly to the container, for debugging
+    # see http://stackoverflow.com/questions/35211638/how-to-debug-a-rails-app-in-docker-with-pry
+    tty: true
+    stdin_open: true
+  node:
+    build: .
+      context: .
+      dockerfile: Dockerfile
+    # deploy:
+    #   replicas: 5
+    #   resources:
+    #     limits:
+    #       cpus: "0.1"
+    #       memory: 100M
+    #   restart_policy:
+    #     condition: on-failure
+    ports:
+      - "8000:80"
+#     networks:
+#       - webnet
+# networks:
+#   webnet:
