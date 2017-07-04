@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/git-involved
+    steps:
+      - checkout
+      - run:
+          name: da first step
+          command: echo "hello world"
