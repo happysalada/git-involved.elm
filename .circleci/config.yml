@@ -22,15 +22,12 @@ jobs:
             - v1-elm-stuff-{{ checksum "yarn.lock" }}
             - v1-elm-stuff
       - run:
-          name: install elm dependencies
-          command:  elm-package install
+          name: elm tests
+          command: npm run test
       - save_cache:
           key: v1-elm-stuff-{{ checksum "elm-package.json" }}
           paths:
             - ~/git-involved/elm-stuff
-      - run:
-          name: elm tests
-          command: npm run test
       # - run:
       #     name: build
       #     command: docker-compose build
