@@ -8,19 +8,19 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-node-modules-{{ checksum "yarn.lock" }}
-            - v1-node-modules
-      - run:
-          name: install javascript dependencies
-          command: npm install
-      - save_cache:
-          key: v1-node-modules-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/git-involved/node_modules
+            - v2-node-modules-{{ checksum "yarn.lock" }}
+            - v2-node-modules
       - restore_cache:
           keys:
-            - v1-elm-stuff-{{ checksum "yarn.lock" }}
+            - v1-elm-stuff-{{ checksum "elm-package.json" }}
             - v1-elm-stuff
+      - run:
+          name: build images
+          command: docker-compose build
+      - save_cache:
+          key: v2-node-modules-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/git-involved/node_modules
       - run:
           name: elm tests
           command: npm run test
@@ -28,9 +28,3 @@ jobs:
           key: v1-elm-stuff-{{ checksum "elm-package.json" }}
           paths:
             - ~/git-involved/elm-stuff
-      # - run:
-      #     name: build
-      #     command: docker-compose build
-      # - run:
-      #     name: start
-      #     command: docker-compose up -d

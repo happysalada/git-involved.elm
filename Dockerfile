@@ -1,7 +1,5 @@
 FROM node:8.1.0
 
-WORKDIR /server
-
 ADD . .
 
 RUN yarn install
