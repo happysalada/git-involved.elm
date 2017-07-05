@@ -20,10 +20,10 @@ jobs:
           key: v2-node-modules-{{ checksum "yarn.lock" }}
           paths:
             - ~/git-involved/node_modules
-      - run:
-          name: elm tests
-          command: npm run test
-      - save_cache:
-          key: v1-elm-stuff-{{ checksum "elm-package.json" }}
-          paths:
-            - ~/git-involved/elm-stuff
+      # - run:
+      #     name: elm tests
+      #     command: npm run test
+      # - save_cache:
+      #     key: v1-elm-stuff-{{ checksum "elm-package.json" }}
+      #     paths:
+      #       - ~/git-involved/elm-stuff
