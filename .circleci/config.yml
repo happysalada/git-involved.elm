@@ -10,7 +10,7 @@ jobs:
           command: docker-compose build
       - run:
           name: start the containers
-          command: docker-compose up
+          command: docker-compose up -d
       - run:
           name: elm tests
           command: docker-compose exec node npm run test
