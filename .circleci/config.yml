@@ -1,8 +1,7 @@
 version: 2
+executorType: machine
 jobs:
   build:
-    docker:
-      - image: circleci/node:latest
     working_directory: ~/git-involved
     steps:
       - checkout
