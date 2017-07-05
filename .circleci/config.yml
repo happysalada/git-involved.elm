@@ -14,3 +14,10 @@ jobs:
       - run:
           name: elm tests
           command: docker-compose exec node npm run test
+      - run:
+          name: push the images
+          command: |
+            docker tag gitinvolvedelm_node:latest happysalada/gitinvolved_node:latest
+            docker tag gitinvolvedelm_node:latest happysalada/gitinvolved_nginx:latest
+            docker push happysalada/gitinvolved_node:latest
+            docker push happysalada/gitinvolved_nginx:latest
