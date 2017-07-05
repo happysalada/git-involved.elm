@@ -18,8 +18,8 @@ jobs:
           name: push the images
           command: |
             set -exu
-            docker ps
-            docker tag gitinvolvedelm_node happysalada/gitinvolved_node:latest
-            docker tag gitinvolvedelm_node happysalada/gitinvolved_nginx:latest
+            docker ps | grep node
+            docker tag gitinvolved_node happysalada/gitinvolved_node:latest
+            docker tag gitinvolved_nginx happysalada/gitinvolved_nginx:latest
             docker push happysalada/gitinvolved_node:latest
             docker push happysalada/gitinvolved_nginx:latest
