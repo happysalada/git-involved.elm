@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:latest
-    working_directory: /git-involved
+    working_directory: ~/git-involved
     steps:
       - checkout
       - restore_cache:
@@ -16,7 +16,7 @@ jobs:
       - save_cache:
           key: v1-node-modules-{{ checksum "yarn.lock" }}
           paths:
-            - /git-involved/node_modules
+            - ~/git-involved/node_modules
       - restore_cache:
           keys:
             - v1-elm-stuff-{{ checksum "yarn.lock" }}
@@ -27,7 +27,7 @@ jobs:
       - save_cache:
           key: v1-elm-stuff-{{ checksum "elm-package.json" }}
           paths:
-            - /git-involved/elm-stuff
+            - ~/git-involved/elm-stuff
       - run:
           name: elm tests
           command: npm run test
