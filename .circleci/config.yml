@@ -1,6 +1,6 @@
 version: 2
 executorType: machine
-jobs:
+stage:
   build:
     working_directory: ~/git-involved
     steps:
