@@ -3,17 +3,17 @@
   "name": "GitBack Contribute to OSS",
   "icons": [
     {
-      "src": "img/launcher_icon.png",
+      "src": "assets/launcher_icon.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "img/launcher_icon_2x.png",
+      "src": "assets/launcher_icon_2x.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "img/launcher_icon_3x.png",
+      "src": "assets/launcher_icon_3x.png",
       "type": "image/png",
       "sizes": "192x192"
     }
