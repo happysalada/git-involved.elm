@@ -35,12 +35,12 @@ const fileManifest = [
     "revision": "5e5956232b98810da18c8251d01b1c6e"
   },
   {
-    "url": "/assets/manifest-c71906.json",
-    "revision": "fffebc5677636ec7c632e66baacf92b8"
+    "url": "/assets/manifest-7bd529.json",
+    "revision": "696b7dfd4302a7c0b05b5940452eb6c7"
   },
   {
     "url": "/index.html",
-    "revision": "7a59683a5eb918b0f3ae0df44651c59c"
+    "revision": "0dc313ff37812b1033c2c3347c0630ae"
   },
   {
     "url": "/js/analytics.js.map",
