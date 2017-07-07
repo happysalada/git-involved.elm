@@ -24,6 +24,13 @@
       }
     }
   </script>
+  <script>
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+              .register('/sw.js')
+              .then(function() { console.log("Service Worker Registered"); });
+    }
+  </script>
   <meta property="og:title" content="Git back - contribute to issues on open source projects"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://git-back.herokuapp.com"/>
