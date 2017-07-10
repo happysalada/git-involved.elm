@@ -55,6 +55,7 @@
     "lint": "elm-analyse -s",
     "dev:server": "nodemon server.js",
     "dev:client": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend",
+    "dev:public": "browser-sync start --config 'bs-config.js'",
     "prebuild": "rimraf public/*",
     "build": "yarn build:elm && yarn build:assets && yarn build:images && yarn build:css && yarn build:js && yarn build:html && yarn build:mark",
     "build:elm": "elm make app/App.elm --output=frontend/js/elm.js",
@@ -62,10 +63,10 @@
     "build:images": "imagemin frontend/assets/*.png --out-dir=public/assets",
     "build:css": "cleancss -O2 -o public/styles/index.css frontend/styles/cssRemoveAndCombine.css",
     "build:js": "uglifyjs frontend/js/elm.js -c -o public/js/elm.js && browserify -d frontend/js/analyticsBase.js -p [minifyify --map public/js/analytics.js.map --output public/js/analytics.js.map --uglify [ --compress ] ] > public/js/analyticsBase.js",
-    "build:html": "html-minifier --config-file htmlMinifier.conf --output public/temp.html frontend/index.html",
+    "build:html": "cp frontend/index.html public/initial.html && htmlprocessor public/initial.html -o public/processed.html && html-minifier --config-file htmlMinifier.conf --output public/temp.html public/processed.html",
     "build:mark": "hashmark -s -c public -r -l 6 -m assets.json '{js,styles,assets}/*.{css,js,json}' '{dir}/{name}-{hash}{ext}' && awk 'BEGIN { FS = \"\\\"\" } ;FNR==NR { array[$2]=$4; next } { for (i in array) gsub(i,array[i])}1' public/assets.json public/temp.html > public/index.html",
-    "postbuild": "rimraf public/temp.html && rimraf public/assets.json && workbox-cli generate:sw",
-    "build:sw": "workbox-cli generate:sw"
+    "update-cache-policy": "replace-in-file /elm.+js/ `ls public/js/elm* | grep -Eo 'elm.+'` firebase.json --isRegex",
+    "postbuild": "rimraf public/temp.html && rimraf public/assets.json && rimraf public/processed.html && rimraf public/initial.html && workbox-cli generate:sw"
   },
   "dependencies": {
     "apicache": "^0.8.6",
@@ -96,6 +97,7 @@
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-inline-environment-variables": "^0.1.1",
     "babelify": "^7.3.0",
+    "browser-sync": "^2.18.12",
     "browserify": "^14.4.0",
     "clean-css-cli": "^4.1.4",
     "elm": "^0.18.0",
@@ -103,9 +105,11 @@
     "elm-test": "^0.18.6",
     "hashmark": "4.1.0",
     "html-minifier": "^3.5.2",
+    "htmlprocessor": "^0.2.4",
     "imagemin-cli": "^3.0.0",
     "minifyify": "^7.3.5",
     "nodemon": "^1.11.0",
+    "replace-in-file": "^2.5.3",
     "rimraf": "^2.6.1",
     "uglify-js": "^3.0.15",
     "workbox-cli": "^1.0.1"

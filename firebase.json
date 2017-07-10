@@ -19,6 +19,9 @@
       "key" : "Cache-Control",
       "value" : "no-cache"
       } ]
+    },{
+      "source": "/",
+      "headers": [{"key": "Link", "value": "</js/elm-666605.js>;rel=preload;as=script"}]
     }],
     "rewrites": [
       {

@@ -1,7 +1,0 @@
-elm-stuff
-frontend
-node_modules
-.editorconfig
-.env
-elm-package.json
-htmlMinifier.conf
