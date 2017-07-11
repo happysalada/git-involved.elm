@@ -3,22 +3,13 @@ executorType: machine
 jobs:
   build:
     working_directory: ~/git-involved
+    docker:
+      - image: circleci/node:latest
     steps:
       - checkout
       - run:
-          name: build images
-          command: docker-compose build
-      - run:
-          name: start the containers
-          command: docker-compose up -d
+          name: install dependencies
+          command: npm install
       - run:
           name: elm tests
-          command: docker-compose exec node npm run test
-      # - run:
-      #     name: push the images
-      #     command: |
-      #       set -exu
-      #       docker tag $(docker ps | grep -oh node) happysalada/gitinvolved_node:latest
-      #       docker tag $(docker ps | grep -oh nginx) happysalada/gitinvolved_nginx:latest
-      #       docker push happysalada/gitinvolved_node:latest
-      #       docker push happysalada/gitinvolved_nginx:latest
+          command: npm run test
