@@ -14963,6 +14963,143 @@ var _debois$elm_mdl$Material$Model = F8(
 		return {button: a, textfield: b, menu: c, snackbar: d, layout: e, toggles: f, tooltip: g, tabs: h};
 	});
 
+//import Maybe, Native.List //
+
+var _elm_lang$core$Native_Regex = function() {
+
+function escape(str)
+{
+	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+function caseInsensitive(re)
+{
+	return new RegExp(re.source, 'gi');
+}
+function regex(raw)
+{
+	return new RegExp(raw, 'g');
+}
+
+function contains(re, string)
+{
+	return string.match(re) !== null;
+}
+
+function find(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex === re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		out.push({
+			match: result[0],
+			submatches: _elm_lang$core$Native_List.fromArray(subs),
+			index: result.index,
+			number: number
+		});
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+function replace(n, re, replacer, string)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		return replacer({
+			match: match,
+			submatches: _elm_lang$core$Native_List.fromArray(submatches),
+			index: arguments[arguments.length - 2],
+			number: count
+		});
+	}
+	return string.replace(re, jsReplacer);
+}
+
+function split(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	if (n === Infinity)
+	{
+		return _elm_lang$core$Native_List.fromArray(str.split(re));
+	}
+	var string = str;
+	var result;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		if (!(result = re.exec(string))) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+return {
+	regex: regex,
+	caseInsensitive: caseInsensitive,
+	escape: escape,
+
+	contains: F2(contains),
+	find: F3(find),
+	replace: F4(replace),
+	split: F3(split)
+};
+
+}();
+
+var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
+var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
+var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
+var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
+var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
+var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
+var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
+var _elm_lang$core$Regex$Match = F4(
+	function (a, b, c, d) {
+		return {match: a, submatches: b, index: c, number: d};
+	});
+var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
+var _elm_lang$core$Regex$AtMost = function (a) {
+	return {ctor: 'AtMost', _0: a};
+};
+var _elm_lang$core$Regex$All = {ctor: 'All'};
+
 //import Result //
 
 var _elm_lang$core$Native_Date = function() {
@@ -17559,6 +17696,201 @@ var _moarwick$elm_webpack_starter$Update$update = F2(
 		}
 	});
 
+var _rtfeldman$hex$Hex$toString = function (num) {
+	return _elm_lang$core$String$fromList(
+		(_elm_lang$core$Native_Utils.cmp(num, 0) < 0) ? {
+			ctor: '::',
+			_0: _elm_lang$core$Native_Utils.chr('-'),
+			_1: A2(
+				_rtfeldman$hex$Hex$unsafePositiveToDigits,
+				{ctor: '[]'},
+				_elm_lang$core$Basics$negate(num))
+		} : A2(
+			_rtfeldman$hex$Hex$unsafePositiveToDigits,
+			{ctor: '[]'},
+			num));
+};
+var _rtfeldman$hex$Hex$unsafePositiveToDigits = F2(
+	function (digits, num) {
+		unsafePositiveToDigits:
+		while (true) {
+			if (_elm_lang$core$Native_Utils.cmp(num, 16) < 0) {
+				return {
+					ctor: '::',
+					_0: _rtfeldman$hex$Hex$unsafeToDigit(num),
+					_1: digits
+				};
+			} else {
+				var _v0 = {
+					ctor: '::',
+					_0: _rtfeldman$hex$Hex$unsafeToDigit(
+						A2(_elm_lang$core$Basics_ops['%'], num, 16)),
+					_1: digits
+				},
+					_v1 = (num / 16) | 0;
+				digits = _v0;
+				num = _v1;
+				continue unsafePositiveToDigits;
+			}
+		}
+	});
+var _rtfeldman$hex$Hex$unsafeToDigit = function (num) {
+	var _p0 = num;
+	switch (_p0) {
+		case 0:
+			return _elm_lang$core$Native_Utils.chr('0');
+		case 1:
+			return _elm_lang$core$Native_Utils.chr('1');
+		case 2:
+			return _elm_lang$core$Native_Utils.chr('2');
+		case 3:
+			return _elm_lang$core$Native_Utils.chr('3');
+		case 4:
+			return _elm_lang$core$Native_Utils.chr('4');
+		case 5:
+			return _elm_lang$core$Native_Utils.chr('5');
+		case 6:
+			return _elm_lang$core$Native_Utils.chr('6');
+		case 7:
+			return _elm_lang$core$Native_Utils.chr('7');
+		case 8:
+			return _elm_lang$core$Native_Utils.chr('8');
+		case 9:
+			return _elm_lang$core$Native_Utils.chr('9');
+		case 10:
+			return _elm_lang$core$Native_Utils.chr('a');
+		case 11:
+			return _elm_lang$core$Native_Utils.chr('b');
+		case 12:
+			return _elm_lang$core$Native_Utils.chr('c');
+		case 13:
+			return _elm_lang$core$Native_Utils.chr('d');
+		case 14:
+			return _elm_lang$core$Native_Utils.chr('e');
+		case 15:
+			return _elm_lang$core$Native_Utils.chr('f');
+		default:
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Hex',
+				{
+					start: {line: 138, column: 5},
+					end: {line: 188, column: 84}
+				},
+				_p0)(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'Tried to convert ',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_rtfeldman$hex$Hex$toString(num),
+						' to hexadecimal.')));
+	}
+};
+var _rtfeldman$hex$Hex$fromStringHelp = F3(
+	function (position, chars, accumulated) {
+		var _p2 = chars;
+		if (_p2.ctor === '[]') {
+			return _elm_lang$core$Result$Ok(accumulated);
+		} else {
+			var recurse = function (additional) {
+				return A3(
+					_rtfeldman$hex$Hex$fromStringHelp,
+					position - 1,
+					_p2._1,
+					accumulated + (additional * Math.pow(16, position)));
+			};
+			var _p3 = _p2._0;
+			switch (_p3.valueOf()) {
+				case '0':
+					return recurse(0);
+				case '1':
+					return recurse(1);
+				case '2':
+					return recurse(2);
+				case '3':
+					return recurse(3);
+				case '4':
+					return recurse(4);
+				case '5':
+					return recurse(5);
+				case '6':
+					return recurse(6);
+				case '7':
+					return recurse(7);
+				case '8':
+					return recurse(8);
+				case '9':
+					return recurse(9);
+				case 'a':
+					return recurse(10);
+				case 'b':
+					return recurse(11);
+				case 'c':
+					return recurse(12);
+				case 'd':
+					return recurse(13);
+				case 'e':
+					return recurse(14);
+				case 'f':
+					return recurse(15);
+				default:
+					return _elm_lang$core$Result$Err(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(_p3),
+							' is not a valid hexadecimal character.'));
+			}
+		}
+	});
+var _rtfeldman$hex$Hex$fromString = function (str) {
+	if (_elm_lang$core$String$isEmpty(str)) {
+		return _elm_lang$core$Result$Err('Empty strings are not valid hexadecimal strings.');
+	} else {
+		var formatError = function (err) {
+			return A2(
+				_elm_lang$core$String$join,
+				' ',
+				{
+					ctor: '::',
+					_0: _elm_lang$core$Basics$toString(str),
+					_1: {
+						ctor: '::',
+						_0: 'is not a valid hexadecimal string because',
+						_1: {
+							ctor: '::',
+							_0: err,
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		};
+		var result = function () {
+			if (A2(_elm_lang$core$String$startsWith, '-', str)) {
+				var list = A2(
+					_elm_lang$core$Maybe$withDefault,
+					{ctor: '[]'},
+					_elm_lang$core$List$tail(
+						_elm_lang$core$String$toList(str)));
+				return A2(
+					_elm_lang$core$Result$map,
+					_elm_lang$core$Basics$negate,
+					A3(
+						_rtfeldman$hex$Hex$fromStringHelp,
+						_elm_lang$core$List$length(list) - 1,
+						list,
+						0));
+			} else {
+				return A3(
+					_rtfeldman$hex$Hex$fromStringHelp,
+					_elm_lang$core$String$length(str) - 1,
+					_elm_lang$core$String$toList(str),
+					0);
+			}
+		}();
+		return A2(_elm_lang$core$Result$mapError, formatError, result);
+	}
+};
+
 var _moarwick$elm_webpack_starter$Autocomplete_DefaultStyles$inputStyles = {
 	ctor: '::',
 	_0: {ctor: '_Tuple2', _0: 'min-width', _1: '120px'},
@@ -17723,6 +18055,37 @@ var _moarwick$elm_webpack_starter$View$aboutPage = A2(
 		_1: {ctor: '[]'}
 	});
 var _moarwick$elm_webpack_starter$View$labelDiv = function (label) {
+	var colorList = A2(
+		_elm_lang$core$List$map,
+		_elm_lang$core$Result$withDefault(0),
+		A2(
+			_elm_lang$core$List$map,
+			_rtfeldman$hex$Hex$fromString,
+			A2(
+				_elm_lang$core$List$map,
+				function (color) {
+					return color.match;
+				},
+				A3(
+					_elm_lang$core$Regex$find,
+					_elm_lang$core$Regex$All,
+					_elm_lang$core$Regex$regex('\\w\\w'),
+					label.color))));
+	var dark = A2(
+		F2(
+			function (x, y) {
+				return _elm_lang$core$Native_Utils.cmp(x, y) > -1;
+			}),
+		128,
+		A2(
+			F2(
+				function (x, y) {
+					return x * y;
+				}),
+			0.3,
+			_elm_lang$core$Basics$toFloat(
+				_elm_lang$core$List$sum(colorList))));
+	var textColor = dark ? 'white' : 'black';
 	return A3(
 		_debois$elm_mdl$Material_Options$styled,
 		_elm_lang$html$Html$span,
@@ -17734,8 +18097,15 @@ var _moarwick$elm_webpack_starter$View$labelDiv = function (label) {
 				A2(_elm_lang$core$Basics_ops['++'], '#', label.color)),
 			_1: {
 				ctor: '::',
-				_0: _debois$elm_mdl$Material_Options$cs('m1 center mdl-chip'),
-				_1: {ctor: '[]'}
+				_0: A2(
+					_debois$elm_mdl$Material_Options$css,
+					'color',
+					A2(_elm_lang$core$Debug$log, 'color', textColor)),
+				_1: {
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Options$cs('m1 center mdl-chip'),
+					_1: {ctor: '[]'}
+				}
 			}
 		},
 		{
