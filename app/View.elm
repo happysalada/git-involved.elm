@@ -3,8 +3,7 @@ module View exposing (..)
 import Html exposing (Html, button, div, h1, a, p, span, text)
 import Html.Attributes exposing (class, style, href, id)
 import Html.Events exposing (onClick)
-import Hex exposing (fromString)
-import Regex exposing (..)
+import Helpers exposing (contrastColor)
 import Models exposing (Model)
 import Messages exposing (Message(..))
 import Update
@@ -241,34 +240,12 @@ mdlMenu mdlModel =
 
 labelDiv : Models.Label -> Html Message
 labelDiv label =
-    let
-        colorList : List Int
-        colorList =
-            Regex.find Regex.All (Regex.regex "\\w\\w") label.color
-                |> List.map (\color -> color.match)
-                |> List.map Hex.fromString
-                |> List.map (Result.withDefault 0)
-
-        dark : Bool
-        dark =
-            List.sum colorList
-                |> toFloat
-                |> (*) 0.3
-                |> (>=) 128
-
-        textColor : String
-        textColor =
-            if (dark) then
-                "white"
-            else
-                "black"
-    in
-        styled span
-            [ css "background-color" ("#" ++ label.color)
-            , css "color" textColor
-            , cs "m1 center mdl-chip"
-            ]
-            [ span [ class "mdl-chip__text" ] [ text (label.name) ] ]
+    styled span
+        [ css "background-color" ("#" ++ label.color)
+        , css "color" (contrastColor label.color)
+        , cs "m1 center mdl-chip"
+        ]
+        [ span [ class "mdl-chip__text" ] [ text (label.name) ] ]
 
 
 aboutPage : Html Message

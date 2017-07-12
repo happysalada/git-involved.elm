@@ -40,7 +40,7 @@ const fileManifest = [
   },
   {
     "url": "/index.html",
-    "revision": "07e7f03925fd678e1cce5cfedaf8c722"
+    "revision": "50492e468535fdb7ebaf1e4578f047d6"
   },
   {
     "url": "/js/analytics.js.map",
@@ -51,8 +51,8 @@ const fileManifest = [
     "revision": "10b7f79b785020e3e47d4bd875755b47"
   },
   {
-    "url": "/js/elm-ea1c9e.js",
-    "revision": "aaa55608c092952102524be6a371dfca"
+    "url": "/js/elm-dda1f0.js",
+    "revision": "c53301598163051f83ef92cf7d44d5cc"
   },
   {
     "url": "/robots.txt",
