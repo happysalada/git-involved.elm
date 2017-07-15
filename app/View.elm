@@ -1,7 +1,7 @@
 module View exposing (..)
 
-import Html exposing (Html, button, div, h1, a, p, span, text)
-import Html.Attributes exposing (class, style, href, id)
+import Html exposing (Html, button, div, h1, span, text)
+import Html.Attributes exposing (class, style, id)
 import Html.Events exposing (onClick)
 import Helpers exposing (contrastColor)
 import Models exposing (Model)
@@ -15,7 +15,7 @@ import Commands exposing (repoNameFromUrl, dateFrom)
 import Material
 import Material.Menu as Menu
 import Material.Textfield as Textfield
-import Material.Options as Options exposing (css, cs, when, styled)
+import Material.Options as Options exposing (css, cs, styled)
 
 
 view : Model -> Html Message
@@ -60,7 +60,7 @@ mainPage model =
                     [ autoComplete model
                     , styled div
                         [ cs "mt3 ml2 flex" ]
-                        [ text ("Order by:")
+                        [ text "Order by:"
                         , text (toString model.orderIssuesBy)
                         , mdlMenu model.mdl
                         ]
@@ -127,7 +127,7 @@ issueCardAction : Models.Issue -> Html Message
 issueCardAction issue =
     styled div
         [ cs "p2" ]
-        [ text ("opened this issue on " ++ (dateFrom issue.createdAt) ++ " - " ++ (toString issue.commentCount) ++ " comments") ]
+        [ text ("opened this issue on " ++ dateFrom issue.createdAt ++ " - " ++ toString issue.commentCount ++ " comments") ]
 
 
 autoComplete : Model -> Html Message
@@ -137,7 +137,7 @@ autoComplete model =
             { preventDefault = True, stopPropagation = False }
 
         dec =
-            (Json.map
+            Json.map
                 (\code ->
                     if code == 38 || code == 40 then
                         Ok NoOp
@@ -147,7 +147,6 @@ autoComplete model =
                         Err "not handling that key"
                 )
                 Html.Events.keyCode
-            )
                 |> Json.andThen
                     fromResult
 
@@ -210,7 +209,7 @@ viewConfig =
                     style DefaultStyles.itemStyles
                 , id language
                 ]
-            , children = [ Html.text (language) ]
+            , children = [ Html.text language ]
             }
     in
         Autocomplete.viewConfig
@@ -245,7 +244,7 @@ labelDiv label =
         , css "color" (contrastColor label.color)
         , cs "m1 center mdl-chip"
         ]
-        [ span [ class "mdl-chip__text" ] [ text (label.name) ] ]
+        [ span [ class "mdl-chip__text" ] [ text label.name ] ]
 
 
 aboutPage : Html Message
