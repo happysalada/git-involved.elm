@@ -60,7 +60,7 @@
     "build": "yarn build:elm && yarn build:assets && yarn build:images && yarn build:css && yarn build:js && yarn build:html && yarn build:mark && yarn update-cache-policy",
     "build:elm": "elm make app/App.elm --output=frontend/js/elm.js",
     "build:assets": "mkdir public/styles && mkdir public/js && mkdir public/assets && cp frontend/assets/favicon.ico public/assets/favicon.ico && cp frontend/assets/manifest.json public/assets/manifest.json && cp frontend/robots.txt public/robots.txt && cp frontend/sitemap.xml public/sitemap.xml",
-    "build:images": "imagemin frontend/assets/*.png --out-dir=public/assets",
+    "build:images": "imagemin frontend/assets/*.png --out-dir=public/assets && imagemin frontend/assets/res/mipmap-mdpi/*.png --out-dir=public/assets/res/mipmap-mdpi/ && imagemin frontend/assets/res/mipmap-hdpi/*.png --out-dir=public/assets/res/mipmap-hdpi/ && imagemin frontend/assets/res/mipmap-xhdpi/*.png --out-dir=public/assets/res/mipmap-xhdpi/ && imagemin frontend/assets/res/mipmap-xxhdpi/*.png --out-dir=public/assets/res/mipmap-xxhdpi/ && imagemin frontend/assets/res/mipmap-xxhdpi/*.png --out-dir=public/assets/res/mipmap-xxxhdpi/",
     "build:css": "cleancss -O2 -o public/styles/index.css frontend/styles/cssRemoveAndCombine.css",
     "build:js": "uglifyjs frontend/js/elm.js -c -o public/js/elm.js && browserify -d frontend/js/analyticsBase.js -p [minifyify --map public/js/analytics.js.map --output public/js/analytics.js.map --uglify [ --compress ] ] > public/js/analyticsBase.js",
     "build:html": "cp frontend/index.html public/initial.html && htmlprocessor public/initial.html -o public/processed.html && html-minifier --config-file htmlMinifier.conf --output public/temp.html public/processed.html",
