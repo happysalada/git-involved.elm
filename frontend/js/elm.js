@@ -18341,7 +18341,12 @@ var _moarwick$elm_webpack_starter$View$autoComplete = function (model) {
 										_1: {
 											ctor: '::',
 											_0: _debois$elm_mdl$Material_Options$id('autocomplete-input'),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: _debois$elm_mdl$Material_Options$attribute(
+													A2(_elm_lang$html$Html_Attributes$attribute, 'aria-label', 'Show me repos using')),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}

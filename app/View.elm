@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import Html exposing (Html, button, div, h1, span, text)
-import Html.Attributes exposing (class, style, id)
+import Html.Attributes exposing (class, style, id, attribute)
 import Html.Events exposing (onClick)
 import Helpers exposing (contrastColor)
 import Models exposing (Model)
@@ -184,6 +184,7 @@ autoComplete model =
                     , Textfield.autofocus
                     , Options.onInput SetQuery
                     , Options.id "autocomplete-input"
+                    , Options.attribute <| Html.Attributes.attribute "aria-label" "Show me repos using"
                     ]
                     []
                 ]
