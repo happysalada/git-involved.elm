@@ -17947,7 +17947,7 @@ var _moarwick$elm_webpack_starter$Helpers$luminosity = function (color) {
 };
 var _moarwick$elm_webpack_starter$Helpers$contrastColor = function (color) {
 	var luminosityDifference = (_moarwick$elm_webpack_starter$Helpers$luminosity(color) + 5.0e-2) / 5.0e-2;
-	return (_elm_lang$core$Native_Utils.cmp(luminosityDifference, 2.5) > -1) ? 'black' : 'white';
+	return (_elm_lang$core$Native_Utils.cmp(luminosityDifference, 5) > -1) ? 'black' : 'white';
 };
 
 var _moarwick$elm_webpack_starter$Autocomplete_DefaultStyles$inputStyles = {

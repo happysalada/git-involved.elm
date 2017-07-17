@@ -21,7 +21,7 @@
       } ]
     },{
       "source": "/",
-      "headers": [{"key": "Link", "value": "</js/elm-dda1f0.js>;rel=preload;as=script"}]
+      "headers": [{"key": "Link", "value": "</js/elm-f6ccc5.js>;rel=preload;as=script"}]
     }],
     "rewrites": [
       {

@@ -28,7 +28,7 @@ contrastColor color =
         luminosityDifference =
             (luminosity color + 0.05) / 0.05
     in
-        if luminosityDifference >= 2.5 then
+        if luminosityDifference >= 5 then
             "black"
         else
             "white"

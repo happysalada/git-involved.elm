@@ -17,10 +17,6 @@ suite =
                 \_ ->
                     contrastColor "009800"
                         |> Expect.equal "black"
-            , test "from light pink returns black" <|
-                \_ ->
-                    contrastColor "F45866"
-                        |> Expect.equal "black"
             , test "from dark blue returns white" <|
                 \_ ->
                     contrastColor "3E4B9E"
