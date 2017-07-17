@@ -41,5 +41,13 @@ suite =
                 \_ ->
                     contrastColor "CC317C"
                         |> Expect.equal "white"
+            , test "from dark red returns white" <|
+                \_ ->
+                    contrastColor "B60205"
+                        |> Expect.equal "white"
+            , test "from dark bluish returns white" <|
+                \_ ->
+                    contrastColor "006B75"
+                        |> Expect.equal "white"
             ]
         ]
