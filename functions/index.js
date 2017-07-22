@@ -1,49 +1,10 @@
-/**
- * Copyright 2016, Google, Inc.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 'use strict';
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const secureCompare = require('secure-compare');
+admin.initializeApp(functions.config().firebase);
+const axios = require('axios');
 
-const Datastore = require('@google-cloud/datastore');
-
-// Instantiates a client
-const datastore = Datastore();
-
-function sendDataFromStore (key, res) {
-  return datastore.get(key).then(([entity]) => {
-    if (!entity) throw new Error(`Nothing in ${key.path.join('/')}.`);
-    res.status(200).send(entity);
-  }).catch((err) => handleError(err, res));
-}
-
-function setDataToStore (req, res, key) {
-  if (!req.body) throw new Error('No value provided to store');
-  console.log('updated');
-  console.log(req.body);
-  const entity = {
-    key: key,
-    data: [{
-      name: "githubResponse",
-      value: JSON.stringify(req.body),
-      excludeFromIndexes: true
-      }]
-  };
-
-  return datastore.save(entity)
-    .then(() => res.status(200).send(`Entity ${key.path.join('/')} saved.`))
-    .catch((err) => handleError(err, res));
-}
 
 function handleError(err, res) {
   console.error(err);
@@ -51,9 +12,28 @@ function handleError(err, res) {
   return Promise.reject(err);
 }
 
-exports.javascript = function javascript (req, res) {
-  const key = datastore.key(["Issues", "Javascript"]);
-  if (req.method == 'GET') return sendDataFromStore(key, res);
-  if (req.method == 'POST') return setDataToStore(req, res, key);
-  res.status(500).send({ error: "You can GET or POST, that's it!" });
-};
+exports.javascript = functions.https.onRequest((req, res) => {
+  const jsRef = admin.database().ref('javascript')
+  return jsRef.once('value').then(dataSnapshot => {
+    res.status(200).send(dataSnapshot.val());
+  }).catch((err) => handleError(err, res));
+});
+
+exports.setJavascript = functions.https.onRequest((req, res) => {
+  const cronKey = req.query.key;
+
+  // Exit if the keys don't match
+  if (!secureCompare(cronKey, functions.config().cron.key)) {
+    console.log('The key provided in the request does not match the key set in the environment. Check that', key,
+        'matches the cron.key attribute in `firebase env:get`');
+    res.status(403).send('Security key does not match. Make sure your "key" URL query parameter matches the ' +
+        'cron.key environment variable.');
+    return;
+  }
+
+  const jsRef = admin.database().ref('javascript')
+  axios.get('https://api.github.com/search/issues?q=language:Javascript+is:open&sort=updated&limit=30')
+    .then(jsonResponse => jsRef.set(jsonResponse.data))
+    .then(() => res.status(200).send('Issues were written to the db'))
+  .catch((err) => handleError(err, res));
+});

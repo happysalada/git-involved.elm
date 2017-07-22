@@ -13,10 +13,14 @@
     "test": "ava -T 20s --verbose test/*.test.js"
   },
   "dependencies": {
-    "@google-cloud/datastore": "1.0.2"
+    "axios": "^0.16.2",
+    "firebase-admin": "^5.0.1",
+    "firebase-functions": "^0.6.0",
+    "secure-compare": "^3.0.1"
   },
   "devDependencies": {
-    "@google-cloud/nodejs-repo-tools": "1.4.15"
+    "@google-cloud/nodejs-repo-tools": "1.4.15",
+    "crypto": "^0.0.3"
   },
   "cloud-repo-tools": {
     "requiresKeyFile": true,
