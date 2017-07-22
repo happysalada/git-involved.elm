@@ -21155,6 +21155,41 @@ var _moarwick$elm_webpack_starter$Messages$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
 };
 
+var _moarwick$elm_webpack_starter$Commands$defaultIssues = {
+	ctor: '::',
+	_0: {
+		title: 'Loading Issues',
+		body: 'please wait...',
+		commentCount: 0,
+		repository_url: 'default repo url',
+		labels: {
+			ctor: '::',
+			_0: {name: 'default label', color: 'FFF'},
+			_1: {ctor: '[]'}
+		},
+		id: 0,
+		createdAt: '',
+		updatedAt: ''
+	},
+	_1: {
+		ctor: '::',
+		_0: {
+			title: 'we\'re coming',
+			body: 'just give us a bit of time',
+			commentCount: 0,
+			repository_url: 'default repo url',
+			labels: {
+				ctor: '::',
+				_0: {name: 'default label', color: 'FFF'},
+				_1: {ctor: '[]'}
+			},
+			id: 0,
+			createdAt: '',
+			updatedAt: ''
+		},
+		_1: {ctor: '[]'}
+	}
+};
 var _moarwick$elm_webpack_starter$Commands$labelDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'color',
@@ -21850,6 +21885,65 @@ var _rtfeldman$hex$Hex$fromString = function (str) {
 	}
 };
 
+var _moarwick$elm_webpack_starter$Helpers$toRgb = function (color) {
+	return A2(
+		_elm_lang$core$List$map,
+		_elm_lang$core$Basics$toFloat,
+		A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$Result$withDefault(0),
+			A2(
+				_elm_lang$core$List$map,
+				_rtfeldman$hex$Hex$fromString,
+				A2(
+					_elm_lang$core$List$map,
+					function (color) {
+						return color.match;
+					},
+					A3(
+						_elm_lang$core$Regex$find,
+						_elm_lang$core$Regex$All,
+						_elm_lang$core$Regex$regex('\\w\\w'),
+						color)))));
+};
+var _moarwick$elm_webpack_starter$Helpers$luminosity = function (color) {
+	return _elm_lang$core$List$sum(
+		A3(
+			_elm_lang$core$List$map2,
+			F2(
+				function (x, y) {
+					return x * y;
+				}),
+			{
+				ctor: '::',
+				_0: 0.2126,
+				_1: {
+					ctor: '::',
+					_0: 0.7152,
+					_1: {
+						ctor: '::',
+						_0: 7.22e-2,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			A2(
+				_elm_lang$core$List$map,
+				function (n) {
+					return Math.pow(n, 2.2);
+				},
+				A2(
+					_elm_lang$core$List$map,
+					function (n) {
+						return n / 255;
+					},
+					_moarwick$elm_webpack_starter$Helpers$toRgb(color)))));
+};
+var _moarwick$elm_webpack_starter$Helpers$contrastColor = function (color) {
+	var luminosityDifference = (_moarwick$elm_webpack_starter$Helpers$luminosity(color) + 5.0e-2) / 5.0e-2;
+	return (_elm_lang$core$Native_Utils.cmp(luminosityDifference, 5) > -1) ? 'black' : 'white';
+};
+
 var _moarwick$elm_webpack_starter$Autocomplete_DefaultStyles$inputStyles = {
 	ctor: '::',
 	_0: {ctor: '_Tuple2', _0: 'min-width', _1: '120px'},
@@ -22014,37 +22108,6 @@ var _moarwick$elm_webpack_starter$View$aboutPage = A2(
 		_1: {ctor: '[]'}
 	});
 var _moarwick$elm_webpack_starter$View$labelDiv = function (label) {
-	var colorList = A2(
-		_elm_lang$core$List$map,
-		_elm_lang$core$Result$withDefault(0),
-		A2(
-			_elm_lang$core$List$map,
-			_rtfeldman$hex$Hex$fromString,
-			A2(
-				_elm_lang$core$List$map,
-				function (color) {
-					return color.match;
-				},
-				A3(
-					_elm_lang$core$Regex$find,
-					_elm_lang$core$Regex$All,
-					_elm_lang$core$Regex$regex('\\w\\w'),
-					label.color))));
-	var dark = A2(
-		F2(
-			function (x, y) {
-				return _elm_lang$core$Native_Utils.cmp(x, y) > -1;
-			}),
-		128,
-		A2(
-			F2(
-				function (x, y) {
-					return x * y;
-				}),
-			0.3,
-			_elm_lang$core$Basics$toFloat(
-				_elm_lang$core$List$sum(colorList))));
-	var textColor = dark ? 'white' : 'black';
 	return A3(
 		_debois$elm_mdl$Material_Options$styled,
 		_elm_lang$html$Html$span,
@@ -22059,7 +22122,7 @@ var _moarwick$elm_webpack_starter$View$labelDiv = function (label) {
 				_0: A2(
 					_debois$elm_mdl$Material_Options$css,
 					'color',
-					A2(_elm_lang$core$Debug$log, 'color', textColor)),
+					_moarwick$elm_webpack_starter$Helpers$contrastColor(label.color)),
 				_1: {
 					ctor: '::',
 					_0: _debois$elm_mdl$Material_Options$cs('m1 center mdl-chip'),
@@ -22272,7 +22335,12 @@ var _moarwick$elm_webpack_starter$View$autoComplete = function (model) {
 										_1: {
 											ctor: '::',
 											_0: _debois$elm_mdl$Material_Options$id('autocomplete-input'),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: _debois$elm_mdl$Material_Options$attribute(
+													A2(_elm_lang$html$Html_Attributes$attribute, 'aria-label', 'Show me repos using')),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
@@ -22444,11 +22512,12 @@ var _moarwick$elm_webpack_starter$View$maybeIssueSearchResult = function (model)
 				_1: {ctor: '[]'}
 			};
 		case 'Loading':
-			return {
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('Loading...'),
-				_1: {ctor: '[]'}
-			};
+			return A2(
+				_elm_lang$core$List$map,
+				function (f) {
+					return f(model.mdl);
+				},
+				A2(_elm_lang$core$List$map, _moarwick$elm_webpack_starter$View$issueDiv, _moarwick$elm_webpack_starter$Commands$defaultIssues));
 		case 'Success':
 			return A2(
 				_elm_lang$core$List$map,

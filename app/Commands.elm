@@ -90,3 +90,26 @@ labelDecoder =
     decode Label
         |> required "name" string
         |> required "color" string
+
+
+defaultIssues : List Issue
+defaultIssues =
+    [ { title = "Loading Issues"
+      , body = "please wait..."
+      , commentCount = 0
+      , repository_url = "default repo url"
+      , labels = [ { name = "default label", color = "FFF" } ]
+      , id = 0
+      , createdAt = ""
+      , updatedAt = ""
+      }
+    , { title = "we're coming"
+      , body = "just give us a bit of time"
+      , commentCount = 0
+      , repository_url = "default repo url"
+      , labels = [ { name = "default label", color = "FFF" } ]
+      , id = 0
+      , createdAt = ""
+      , updatedAt = ""
+      }
+    ]

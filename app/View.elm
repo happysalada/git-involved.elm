@@ -11,7 +11,7 @@ import Autocomplete
 import Autocomplete.DefaultStyles as DefaultStyles
 import RemoteData exposing (WebData)
 import Json.Decode as Json
-import Commands exposing (repoNameFromUrl, dateFrom)
+import Commands exposing (repoNameFromUrl, dateFrom, defaultIssues)
 import Material
 import Material.Menu as Menu
 import Material.Textfield as Textfield
@@ -78,7 +78,8 @@ maybeIssueSearchResult model =
             [ text "" ]
 
         RemoteData.Loading ->
-            [ text "Loading..." ]
+            List.map issueDiv defaultIssues
+                |> List.map (\f -> f model.mdl)
 
         RemoteData.Success issues ->
             List.map issueDiv issues

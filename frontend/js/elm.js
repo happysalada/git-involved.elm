@@ -17196,6 +17196,41 @@ var _moarwick$elm_webpack_starter$Messages$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
 };
 
+var _moarwick$elm_webpack_starter$Commands$defaultIssues = {
+	ctor: '::',
+	_0: {
+		title: 'Loading Issues',
+		body: 'please wait...',
+		commentCount: 0,
+		repository_url: 'default repo url',
+		labels: {
+			ctor: '::',
+			_0: {name: 'default label', color: 'FFF'},
+			_1: {ctor: '[]'}
+		},
+		id: 0,
+		createdAt: '',
+		updatedAt: ''
+	},
+	_1: {
+		ctor: '::',
+		_0: {
+			title: 'we\'re coming',
+			body: 'just give us a bit of time',
+			commentCount: 0,
+			repository_url: 'default repo url',
+			labels: {
+				ctor: '::',
+				_0: {name: 'default label', color: 'FFF'},
+				_1: {ctor: '[]'}
+			},
+			id: 0,
+			createdAt: '',
+			updatedAt: ''
+		},
+		_1: {ctor: '[]'}
+	}
+};
 var _moarwick$elm_webpack_starter$Commands$labelDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'color',
@@ -18518,11 +18553,12 @@ var _moarwick$elm_webpack_starter$View$maybeIssueSearchResult = function (model)
 				_1: {ctor: '[]'}
 			};
 		case 'Loading':
-			return {
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('Loading...'),
-				_1: {ctor: '[]'}
-			};
+			return A2(
+				_elm_lang$core$List$map,
+				function (f) {
+					return f(model.mdl);
+				},
+				A2(_elm_lang$core$List$map, _moarwick$elm_webpack_starter$View$issueDiv, _moarwick$elm_webpack_starter$Commands$defaultIssues));
 		case 'Success':
 			return A2(
 				_elm_lang$core$List$map,
