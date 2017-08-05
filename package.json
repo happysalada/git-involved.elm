@@ -54,7 +54,7 @@
     "start": "node server.js",
     "lint": "elm-analyse -s",
     "dev:server": "nodemon server.js",
-    "dev:client": "elm-live --output=frontend/elm.js app/App.elm --pushstate --open --debug --dir=frontend",
+    "dev:client": "elm-live app/App.elm --output=frontend/js/elm.js --pushstate --open --debug --dir=frontend",
     "dev:public": "browser-sync start --config 'bs-config.js'",
     "prebuild": "rimraf public/*",
     "build": "yarn build:elm && yarn build:assets && yarn build:images && yarn build:css && yarn build:js && yarn build:html && yarn build:mark && yarn update-cache-policy",

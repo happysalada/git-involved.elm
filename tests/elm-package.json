@@ -20,6 +20,7 @@
         "krisajenkins/remotedata": "4.3.0 <= v < 5.0.0",
         "rtfeldman/hex": "1.0.0 <= v < 2.0.0",
         "thebritican/elm-autocomplete": "4.0.3 <= v < 5.0.0",
+        "mdgriffith/style-elements": "3.3.0 <= v < 4.0.0",
         "eeue56/elm-html-test": "4.1.0 <= v < 5.0.0",
         "elm-community/elm-test": "4.0.0 <= v < 5.0.0"
     },
