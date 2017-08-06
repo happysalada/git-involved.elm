@@ -18,7 +18,7 @@ import Material.Textfield as Textfield
 import Material.Options as Options exposing (css, cs, styled)
 import Color
 import Element exposing (root, text, html, column, nav, row, el, header, section, Element)
-import Element.Attributes exposing (verticalCenter, height, width, fill, px, spacing, center, justify, padding, paddingXY, percent, clip, maxHeight, maxWidth, inlineStyle)
+import Element.Attributes exposing (verticalCenter, height, width, fill, px, spacing, center, justify, padding, paddingXY, percent, clip, maxHeight, maxWidth, inlineStyle, spacingXY)
 import Style exposing (style, StyleSheet, paddingHint, hover)
 import Style.Border as Border
 import Style.Shadow as Shadow
@@ -150,7 +150,7 @@ mainPage model =
                     [ el Logo [] (Element.text "Git Back") ]
             , header <|
                 column Hero
-                    [ verticalCenter, height (px 200), spacing 16 ]
+                    [ verticalCenter, height (px 200), spacingXY 0 16 ]
                     [ el Title [] (Element.text "Contribute to open source")
                     , el Subtitle [] (Element.text "Help out on unassigned open issues")
                     ]

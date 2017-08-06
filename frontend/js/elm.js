@@ -28932,7 +28932,7 @@ var _moarwick$elm_webpack_starter$View$mainPage = function (model) {
 										_mdgriffith$style_elements$Element_Attributes$px(200)),
 									_1: {
 										ctor: '::',
-										_0: _mdgriffith$style_elements$Element_Attributes$spacing(16),
+										_0: A2(_mdgriffith$style_elements$Element_Attributes$spacingXY, 0, 16),
 										_1: {ctor: '[]'}
 									}
 								}
