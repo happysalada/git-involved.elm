@@ -1,8 +1,8 @@
-module View exposing (..)
+module View exposing (view)
 
 import Html exposing (Html, button, div, h1, span, text)
 import Html.Attributes exposing (class, style, id, attribute)
-import Html.Events exposing (onClick)
+import Html.Events exposing (keyCode)
 import Helpers exposing (contrastColor)
 import Models exposing (Model)
 import Messages exposing (Message(..))
@@ -17,53 +17,63 @@ import Material.Menu as Menu
 import Material.Textfield as Textfield
 import Material.Options as Options exposing (css, cs, styled)
 import Color
-import Element exposing (..)
-import Element.Attributes exposing (..)
-import Style exposing (..)
+import Element exposing (root, text, html, column, nav, row, el, header, section, Element)
+import Element.Attributes exposing (verticalCenter, height, width, fill, px, spacing, center, justify, padding, paddingXY, percent, clip, maxHeight, maxWidth, inlineStyle)
+import Style exposing (style, StyleSheet, paddingHint, hover)
 import Style.Border as Border
+import Style.Shadow as Shadow
 import Style.Color as Color
-import Style.Font as Font
-import Style.Transition as Transition
+import Style.Font as Font exposing (typeface, lineHeight, size)
+import Style.Transition as Transition exposing (all)
 
 
 type Styles
     = None
+    | MainPage
     | Nav
     | Logo
     | Hero
     | Title
     | Subtitle
-    | Main
-    | IssueContainer
+    | IssueSection
+    | QuerySection
+    | Card
     | Issue
+    | IssueTitle
+    | IssueBody
+    | IssueDetails
+    | RepoDetails
+    | Label
 
 
-gitbackColors : { darkIndigo : Color.Color, indigo : Color.Color }
 gitbackColors =
     { indigo = Color.rgba 63 81 181 1
     , darkIndigo = Color.rgba 0 41 132 1
+    , lightGrey = Color.rgba 245 245 245 1
     }
 
 
 stylesheet : StyleSheet Styles variation
 stylesheet =
     Style.stylesheet
-        [ Style.style None [] -- It's handy to have a blank style
+        [ Style.style None []
+        , Style.style MainPage
+            [ Color.text Color.darkCharcoal
+            , Font.typeface [ "helvetica", "arial", "sans-serif" ]
+            , Font.size 16
+            , Font.lineHeight 1.3
+            ]
         , Style.style Nav
-            [ Font.size 16
-            , paddingHint 10
+            [ paddingHint 10
             , Font.typeface [ "helvetica", "arial", "sans-serif" ]
             , Color.background gitbackColors.darkIndigo
             ]
         , Style.style Logo
             [ Font.size 20
             , Color.text Color.white
-            , Font.lineHeight 1.3
             ]
         , Style.style Hero
-            [ Font.size 16
-            , Font.center
-            , Font.lineHeight 1.3
+            [ Font.center
             , Font.typeface [ "helvetica", "arial", "sans-serif" ]
             , Color.background gitbackColors.indigo
             , Color.text Color.white
@@ -73,28 +83,39 @@ stylesheet =
             ]
         , Style.style Subtitle
             []
-        , Style.style Main
-            [ Border.all 1 -- set all border widths to 1 px.
-            , Color.text Color.darkCharcoal
-            , Color.background Color.white
+        , Style.style IssueSection
+            [ Color.text Color.darkCharcoal
+            , Color.background Color.lightGrey
             , Color.border Color.lightGrey
-            , Font.typeface [ "helvetica", "arial", "sans-serif" ]
-            , Font.size 16
-            , Font.lineHeight 1.3 -- line height, given as a ratio of current font size.
             ]
-        , Style.style Issue
+        , Style.style QuerySection
+            [ Color.text Color.darkCharcoal
+            , Color.background Color.white
+            , Shadow.glow Color.grey 2
+            , Border.rounded 2
+            ]
+        , Style.style Card
             [ Transition.all
-            , Color.text Color.white
-            , Color.background Color.blue
-            , Color.border Color.blue
-            , Border.rounded 3 -- round all borders to 3px
-            , paddingHint 20
+            , Color.background Color.white
+            , Shadow.glow Color.grey 2
+            , Border.rounded 2
             , hover
-                [ Color.text Color.white
-                , Color.background Color.red
-                , Color.border Color.red
-                , cursor "pointer"
-                ]
+                [ Shadow.simple ]
+            ]
+        , Style.style Issue []
+        , Style.style IssueTitle
+            [ Font.size 24
+            ]
+        , Style.style IssueBody
+            [ Color.text Color.charcoal ]
+        , Style.style IssueDetails
+            [ Color.text Color.lightCharcoal ]
+        , Style.style RepoDetails
+            [ paddingHint 16
+            ]
+        , Style.style Label
+            [ Font.center
+            , Border.rounded 24
             ]
         ]
 
@@ -120,98 +141,89 @@ page model =
 
 mainPage : Model -> Html Message
 mainPage model =
-    Html.body [ Html.Attributes.class "mdl-color-text--grey-700" ]
-        [ div [ Html.Attributes.class "page-layout mdl-color--grey-200" ]
-            [ Element.root stylesheet <|
-                column None
+    Element.root stylesheet <|
+        column MainPage
+            []
+            [ nav <|
+                row Nav
                     []
-                    [ nav <|
-                        row Nav
-                            []
-                            [ el Logo [] (Element.text "Git Back") ]
-                    , header <|
-                        column Hero
-                            [ verticalCenter, width (fill 1), height (px 200), spacing 16 ]
-                            [ el Title [] (Element.text "Contribute to open source")
-                            , el Subtitle [] (Element.text "Help out on unassigned open issues")
+                    [ el Logo [] (Element.text "Git Back") ]
+            , header <|
+                column Hero
+                    [ verticalCenter, height (px 200), spacing 16 ]
+                    [ el Title [] (Element.text "Contribute to open source")
+                    , el Subtitle [] (Element.text "Help out on unassigned open issues")
+                    ]
+            , section <|
+                column IssueSection
+                    [ center, width (fill 1) ]
+                    [ el None
+                        [ padding 16 ]
+                        (row QuerySection
+                            [ justify, paddingXY 16 8 ]
+                            [ Element.html (autoComplete model)
+                            , row None
+                                [ verticalCenter, paddingXY 32 0 ]
+                                [ el None [] (Element.text "Order by:")
+                                , el None [] (Element.text (toString model.orderIssuesBy))
+                                , Element.html (mdlMenu model.mdl)
+                                ]
                             ]
+                        )
+                    , column None
+                        [ spacing 24 ]
+                        (maybeIssueSearchResult model)
                     ]
-            , styled Html.main_
-                [ cs "p2 mx-auto max-width-4" ]
-                [ styled div
-                    [ cs "flex flex-wrap justify-center" ]
-                    [ autoComplete model
-                    , styled div
-                        [ cs "mt3 ml2 flex" ]
-                        [ Html.text "Order by:"
-                        , Html.text (toString model.orderIssuesBy)
-                        , mdlMenu model.mdl
-                        ]
-                    ]
-                , div [] (maybeIssueSearchResult model)
-                ]
             ]
-        ]
 
 
-maybeIssueSearchResult : Model -> List (Html Message)
+maybeIssueSearchResult : Model -> List (Element Styles variation msg)
 maybeIssueSearchResult model =
     case model.issues of
         RemoteData.NotAsked ->
-            [ Html.text "" ]
+            [ el None [] (Element.text "") ]
 
         RemoteData.Loading ->
-            List.map issueDiv defaultIssues
-                |> List.map (\f -> f model.mdl)
+            (List.map issueDiv defaultIssues)
 
         RemoteData.Success issues ->
-            List.map issueDiv issues
-                |> List.map (\f -> f model.mdl)
+            (List.map issueDiv issues)
 
         RemoteData.Failure error ->
-            [ Html.text (toString error) ]
+            [ el None [] (Element.text (toString error)) ]
 
 
-issueDiv : Models.Issue -> Material.Model -> Html Message
-issueDiv issue mdl =
-    styled div
-        [ cs "issue-card fit rounded flex my3 mdl-shadow--2dp mdl-color--white" ]
-        [ div [ Html.Attributes.class "content col col-10" ]
-            [ styled div
-                [ cs "fit py0 px3 mdl-card__supporting-text"
-                , css "width" "auto"
-                ]
-                [ styled Html.h3
-                    [ cs "mt2" ]
-                    [ Html.text issue.title ]
-                , styled div
-                    [ cs "body overflow-hidden" ]
-                    [ if String.isEmpty issue.body then
-                        Html.text "No description"
-                      else
-                        Html.text issue.body
-                    ]
-                ]
-            , styled div
-                [ cs "flex items-center mdl-card__actions" ]
-                [ issueCardAction issue
-                , div [] (List.map labelDiv issue.labels)
-                ]
+issueDiv : Models.Issue -> Element Styles variation msg
+issueDiv issue =
+    row Card
+        [ maxWidth (px 800) ]
+        [ column Issue
+            [ width (percent 80), spacing 16, padding 24 ]
+            [ el IssueTitle
+                []
+                (Element.text issue.title)
+            , el IssueBody
+                [ maxHeight (px (16 * 8)), clip ]
+                (if String.isEmpty issue.body then
+                    Element.text "No description"
+                 else
+                    Element.text issue.body
+                )
+            , row IssueDetails
+                [ spacing 8 ]
+                ((issueCardAction issue)
+                    :: (List.map labelDiv issue.labels)
+                )
             ]
-        , styled div
-            [ cs "repo fit p2 col col-2 xs-hide"
-            , css "overflow-wrap" "break-word"
-            ]
-            [ Html.h5 [] [ Html.text (repoNameFromUrl issue.repository_url) ]
-            ]
+        , el RepoDetails [ width (percent 20) ] (Element.text (repoNameFromUrl issue.repository_url))
         ]
 
 
-issueCardAction : Models.Issue -> Html Message
+issueCardAction : Models.Issue -> Element Styles variation msg
 issueCardAction issue =
-    styled div
-        [ cs "p2" ]
-        [ Html.text ("opened this issue on " ++ dateFrom issue.createdAt ++ " - " ++ toString issue.commentCount ++ " comments") ]
+    el None
+        [ verticalCenter ]
+        (Element.text ("opened this issue on " ++ dateFrom issue.createdAt ++ " - " ++ toString issue.commentCount ++ " comments"))
 
 
 autoComplete : Model -> Html Message
@@ -322,14 +334,16 @@ mdlMenu mdlModel =
         ]
 
 
-labelDiv : Models.Label -> Html Message
+labelDiv : Models.Label -> Element Styles variation msg
 labelDiv label =
-    styled Html.span
-        [ css "background-color" ("#" ++ label.color)
-        , css "color" (contrastColor label.color)
-        , cs "m1 center mdl-chip"
+    el Label
+        [ paddingXY 12 8
+        , inlineStyle
+            [ ( "backgroundColor", "#" ++ label.color )
+            , ( "color", contrastColor label.color )
+            ]
         ]
-        [ Html.span [ Html.Attributes.class "mdl-chip__text" ] [ Html.text label.name ] ]
+        (Element.text label.name)
 
 
 aboutPage : Html Message
@@ -337,7 +351,7 @@ aboutPage =
     div [ Html.Attributes.class "jumbotron" ]
         [ div [ Html.Attributes.class "container" ]
             [ h1 [] [ Html.text "This is <about> page" ]
-            , Html.button [ onClick Messages.GoToMainPage, Html.Attributes.class "btn btn-primary btn-lg" ] [ Html.text "Go To Main Page" ]
+            , Html.button [ Html.Attributes.class "btn btn-primary btn-lg" ] [ Html.text "Go To Main Page" ]
             ]
         ]
 

@@ -3,6 +3,7 @@ module HelpersTests exposing (..)
 import Expect exposing (Expectation)
 import Test exposing (..)
 import Helpers exposing (contrastColor)
+import Color
 
 
 suite : Test

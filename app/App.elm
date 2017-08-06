@@ -1,4 +1,4 @@
-module App exposing (..)
+module App exposing (main)
 
 import Routing
 import Messages exposing (Message(..))
